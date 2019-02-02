@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  sentiment_analysis:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: sentiment_analysis
+    volumes:
+      - .:/sentiment_analysis
+    ports:
+      - "8000:8000"

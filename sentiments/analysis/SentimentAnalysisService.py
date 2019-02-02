@@ -41,7 +41,7 @@ class SentimentAnalysisService:
     def __get_tweets__(self, text):
         print("Getting tweets for %s" % text)
         language = 'en'
-        tweet_count = 1
+        tweet_count = 500
         max_days_back = 7
         today = datetime.now().date()
         results = []
@@ -50,11 +50,11 @@ class SentimentAnalysisService:
             until = since + timedelta(days=1)
             print("Getting tweets for date " + str(since))
 
-            result = self.api.search(q=text, language=language,
-                                     count=tweet_count,
-                                     tweet_mode='extended',
-                                     since=since,
-                                     until=until)
+            result = [status for status in tweepy.Cursor(self.api.search, q=text, language=language,
+                                                         count=tweet_count,
+                                                         tweet_mode='extended',
+                                                         since=since,
+                                                         until=until, type='popular').items(tweet_count)]
 
             results.extend(result)
 
